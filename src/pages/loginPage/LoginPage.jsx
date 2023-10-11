@@ -8,7 +8,6 @@ import { Button, Form } from "react-bootstrap"
 import axios from "axios"
 
 import loginSchema from "../../schema/loginSchema"
-import { TOKEN } from "../../constants/const"
 
 import "./loginpage.scss"
 
@@ -20,13 +19,13 @@ const LoginPage = ({ changeSetIsLogin }) => {
   
   const submit = async (data) => {
     try {
-      let res = await axios.post("https://reqres.in/api/login", data).then(data => console.log(data))
-      localStorage.setItem(TOKEN, res.data.token)
-      console.log(res.data.token);
-      changeSetIsLogin()
+      let res = await axios.post("https://reqres.in/api/login", data);
+      console.log(res);
+      localStorage.setItem("token", res.data.token)
       navigate("/")
-    } catch (error) {
-      toast.error(error.response.data.error);
+      changeSetIsLogin()
+    } catch (err) {
+      toast.error(err.response.data.error);
     }
   }
 
