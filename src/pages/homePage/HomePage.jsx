@@ -25,7 +25,7 @@ const HomePage = () => {
   const [selected, setSelected] =useState(null)
   const [search, setSearch] = useState("")
   const params = JSON.stringify({categoryName: search})
-  const { allData, pagination, reFetch, loading } = useFetchPagination("categories", params)
+  const { allData, pagination, reFetch, loading, total } = useFetchPagination("categories", params)
 
   const submit = async (data) => {
     try {
@@ -85,7 +85,7 @@ const HomePage = () => {
       </section>
       <section>
         <Container>
-          <div className='warning bg-warning p-3 rounded'>The total number of products is {allData.length}</div>
+          <div className='warning bg-warning p-3 rounded'>The total number of products is {total}</div>
           {loading ? <Loading /> 
           :
           <Row className='row row-cols-xs-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4'>

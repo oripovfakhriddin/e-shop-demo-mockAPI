@@ -20,8 +20,9 @@ const LoginPage = ({ changeSetIsLogin }) => {
   
   const submit = async (data) => {
     try {
-      let res = await axios.post("https://reqres.in/api/login", data)
+      let res = await axios.post("https://reqres.in/api/login", data).then(data => console.log(data))
       localStorage.setItem(TOKEN, res.data.token)
+      console.log(res.data.token);
       changeSetIsLogin()
       navigate("/")
     } catch (error) {
