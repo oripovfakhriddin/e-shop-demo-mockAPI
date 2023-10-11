@@ -1,10 +1,12 @@
 import { Fragment, useState } from "react"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+
 import MainLayout from "./components/layout/main-layout/MainLayout"
+import LoginPage from "./pages/loginPage/LoginPage"
 import HomePage from "./pages/homePage/HomePage"
 import ProductPage from "./pages/productPage/ProductPage"
+
 import { TOKEN } from "./constants/const"
-import LoginPage from "./pages/loginPage/LoginPage"
 
 
 function App() {

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+
 import request from "../server/request";
 import { LIMIT } from "../constants/const";
 
 const useFetchPagination = (url, otherParams) => {
+
   const [allData, setAllData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -33,17 +35,14 @@ const useFetchPagination = (url, otherParams) => {
         setTotal(totalData.length)
       } catch (error) {
         setError(error)
-      } finally{
+      } finally {
         setLoading(false)
       }
     }
-
     getData()
-
     return () => {
       controller.abort()
     }
-
   }, [activePage, otherParams, url, callBack])
 
   const handlePageChange = ({selected}) => {
@@ -78,6 +77,7 @@ const useFetchPagination = (url, otherParams) => {
 }
 
 useFetchPagination.propTypes = {
+  url: PropTypes.string,
   otherParams: PropTypes.string
 }
 

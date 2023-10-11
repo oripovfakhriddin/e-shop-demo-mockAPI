@@ -1,9 +1,12 @@
-import { useParams } from "react-router-dom"
-import "./productpage.scss"
 import { Fragment, useEffect, useState } from "react"
-import request from "../../server/request"
+import { useParams } from "react-router-dom"
 import { Col, Container, Row } from "react-bootstrap"
+
+import request from "../../server/request"
+
 import ProductCard from "../../components/allCards/productCard/ProductCard"
+
+import "./productpage.scss"
 
 
 const ProductPage = () => {
@@ -12,13 +15,12 @@ const ProductPage = () => {
   useEffect(  ()=>{
     async function getData () {
       try {
-        let {data} = await request.get(`categories/${categoryId}/products`)
+        let { data } = await request.get(`categories/${categoryId}/products`)
         setProducts(data)
       } catch (error) {
         console.log(error);
       }
     }
-
     getData()
   }, [categoryId])
   
@@ -26,7 +28,8 @@ const ProductPage = () => {
     <Fragment>
       <section>
         <Container>
-        <Row className='row row-cols-xs-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4'>
+          <div className='warning bg-warning p-3 rounded'>The total number of products is {products.length}</div>
+          <Row className='row row-cols-xs-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4'>
             {products?.map((product)=>{
               return <Col className='my-3' key={product.id} sm> <ProductCard {...product} /> </Col>
             })}

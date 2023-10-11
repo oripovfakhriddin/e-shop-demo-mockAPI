@@ -1,5 +1,7 @@
 import { Fragment } from 'react'
+
 import "./header.scss"
+
 const Header = () => {
   return (
     <Fragment>

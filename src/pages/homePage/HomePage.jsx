@@ -1,15 +1,17 @@
 import { Fragment, useState } from 'react'
-import "./homepage.scss"
-import { Button, Col, Container, Form, InputGroup, Modal, Row } from 'react-bootstrap'
-import useFetchPagination from '../../hooks/useFetchPagination'
-import CategoryCard from '../../components/allCards/categoryCard/CategoryCard'
-import request from '../../server/request'
-import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import categorySchema from '../../schema/categorySchema'
-import Loading from '../../components/loading/Loading'
+import { toast } from 'react-toastify'
+import { Button, Col, Container, Form, InputGroup, Modal, Row } from 'react-bootstrap'
 
+import useFetchPagination from '../../hooks/useFetchPagination'
+import request from '../../server/request'
+import categorySchema from '../../schema/categorySchema'
+
+import Loading from '../../components/loading/Loading'
+import CategoryCard from '../../components/allCards/categoryCard/CategoryCard'
+
+import "./homepage.scss"
 
 const HomePage = () => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({resolver: yupResolver(categorySchema)})
@@ -27,12 +29,16 @@ const HomePage = () => {
 
   const submit = async (data) => {
     try {
-      await request.post("categories", data)
-      setShow(false)
+      if (selected === null) {
+        await request.post(`categories`, data);
+      } else {
+        await request.put(`categories/${selected}`, data)
+      }
+      handleClose();
+      reFetch()
     } catch (error) {
       console.log(error);
     }
-    reFetch()
   }
 
   const editCategory = async (id) => {
@@ -47,9 +53,7 @@ const HomePage = () => {
   }
 
   const deleteCategory = async (id) => {
-
     let confirm = window.confirm("Are you sure you want to delete this category?")
-
     try {
       if (confirm) {
         await request.delete(`categories/${id}`)
@@ -58,7 +62,6 @@ const HomePage = () => {
     } catch (errors) {
       console.log(errors);
     }
-
     reFetch()
   }
 
@@ -82,6 +85,7 @@ const HomePage = () => {
       </section>
       <section>
         <Container>
+          <div className='warning bg-warning p-3 rounded'>The total number of products is {allData.length}</div>
           {loading ? <Loading /> 
           :
           <Row className='row row-cols-xs-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4'>
